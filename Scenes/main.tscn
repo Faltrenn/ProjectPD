@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://s8f57x1jblxi"]
+
+[ext_resource type="Texture2D" uid="uid://b50c034kygjai" path="res://icon.svg" id="1_nm7yj"]
+[ext_resource type="Script" path="res://Scenes/Player.gd" id="1_vj24e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f1pdu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5eurl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x484u"]
+albedo_texture = ExtResource("1_nm7yj")
+
+[node name="Main" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Player" type="CharacterBody3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_vj24e")
+
+[node name="Camera" type="Camera3D" parent="World/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Mesh" type="CollisionShape3D" parent="World/Player"]
+shape = SubResource("CapsuleShape3D_f1pdu")
+
+[node name="Hitbox" type="MeshInstance3D" parent="World/Player"]
+mesh = SubResource("CapsuleMesh_5eurl")
+
+[node name="Floor" type="CSGBox3D" parent="World"]
+use_collision = true
+size = Vector3(20, 0.1, 20)
+material = SubResource("StandardMaterial3D_x484u")
