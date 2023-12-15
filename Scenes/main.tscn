@@ -1,7 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://s8f57x1jblxi"]
+[gd_scene load_steps=9 format=3 uid="uid://s8f57x1jblxi"]
 
 [ext_resource type="Texture2D" uid="uid://b50c034kygjai" path="res://icon.svg" id="1_nm7yj"]
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_vj24e"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jgmve"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_s488h"]
+sky_material = SubResource("ProceduralSkyMaterial_jgmve")
+
+[sub_resource type="Environment" id="Environment_ed0aa"]
+background_mode = 2
+sky = SubResource("Sky_s488h")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f1pdu"]
 
@@ -11,6 +24,13 @@
 albedo_texture = ExtResource("1_nm7yj")
 
 [node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ed0aa")
 
 [node name="World" type="Node3D" parent="."]
 

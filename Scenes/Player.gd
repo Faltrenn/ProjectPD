@@ -4,6 +4,7 @@ extends CharacterBody3D
 const WALK_SPEED = 5.0
 const RUN_SPEED = 8.0
 const JUMP_VELOCITY = 4.5
+const MOUSE_SENSITIVITY = 0.003
 
 var speed = WALK_SPEED
 
@@ -21,9 +22,9 @@ func _ready():
 func _unhandled_input(event):
 	var mouse = event as InputEventMouseMotion
 	if mouse:
-		var mouse_delta = mouse.relative
-		rotate_y(0.003 * -mouse_delta.x)
-		camera.rotate_x(0.003 * -mouse_delta.y)
+		var mouse_delta = mouse.relative / 3
+		rotate_y(MOUSE_SENSITIVITY * -mouse_delta.x)
+		camera.rotate_x(MOUSE_SENSITIVITY * -mouse_delta.y)
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -38,11 +39,7 @@ func _physics_process(delta):
 	
 	motion = transform.basis * Vector3(move_input.x, 0, move_input.y) * speed
 	
-	if motion:
-		velocity.x = motion.x
-		velocity.z = motion.z
-	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
-		velocity.z = move_toward(velocity.z, 0, speed)
+	velocity.x = motion.x
+	velocity.z = motion.z
 
 	move_and_slide()
