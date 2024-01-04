@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://s8f57x1jblxi"]
+[gd_scene load_steps=13 format=3 uid="uid://s8f57x1jblxi"]
 
 [ext_resource type="Texture2D" uid="uid://b50c034kygjai" path="res://icon.svg" id="1_nm7yj"]
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_vj24e"]
+[ext_resource type="Script" path="res://Scripts/FPSCounter.gd" id="3_pk22m"]
+[ext_resource type="Script" path="res://Scripts/RotateBox.gd" id="3_qnggx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jgmve"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -22,6 +24,12 @@ glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x484u"]
 albedo_texture = ExtResource("1_nm7yj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sk5u0"]
+metallic = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_i2wb3"]
+font_size = 48
 
 [node name="Main" type="Node3D"]
 
@@ -51,3 +59,18 @@ mesh = SubResource("CapsuleMesh_5eurl")
 use_collision = true
 size = Vector3(20, 0.1, 20)
 material = SubResource("StandardMaterial3D_x484u")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33153, -3.76876)
+material = SubResource("StandardMaterial3D_sk5u0")
+script = ExtResource("3_qnggx")
+speed = 10
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="FPSCounter" type="Label" parent="UI"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "FPS: ??"
+label_settings = SubResource("LabelSettings_i2wb3")
+script = ExtResource("3_pk22m")
