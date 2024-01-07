@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://s8f57x1jblxi"]
+[gd_scene load_steps=16 format=3 uid="uid://s8f57x1jblxi"]
 
 [ext_resource type="Texture2D" uid="uid://b50c034kygjai" path="res://icon.svg" id="1_nm7yj"]
 [ext_resource type="Script" path="res://Scenes/Player.gd" id="1_vj24e"]
@@ -17,6 +17,44 @@ background_mode = 2
 sky = SubResource("Sky_s488h")
 tonemap_mode = 2
 glow_enabled = true
+
+[sub_resource type="Animation" id="Animation_yhrp3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cwiu3"]
+resource_name = "fire"
+length = 0.05
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.349066, 3.48787e-16, 3.48787e-16), Vector3(3.48787e-16, 3.48787e-16, 3.48787e-16)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ey5bw"]
+_data = {
+"RESET": SubResource("Animation_yhrp3"),
+"fire": SubResource("Animation_cwiu3")
+}
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f1pdu"]
 
@@ -49,6 +87,23 @@ script = ExtResource("1_vj24e")
 [node name="Camera" type="Camera3D" parent="World/Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
+[node name="Gun" type="CSGBox3D" parent="World/Player/Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865576, -0.470064, -1.68929)
+size = Vector3(0.4, 0.4, 1)
+
+[node name="Trigger" type="CSGBox3D" parent="World/Player/Camera/Gun"]
+transform = Transform3D(1, -1.02157e-16, 2.4663e-16, 2.4663e-16, 0.707107, -0.707107, -1.02157e-16, 0.707107, 0.707107, 0, -0.204589, 0.106346)
+size = Vector3(0.4, 0.4, 0.7)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="World/Player/Camera/Gun"]
+libraries = {
+"": SubResource("AnimationLibrary_ey5bw")
+}
+
+[node name="Ray" type="RayCast3D" parent="World/Player/Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+target_position = Vector3(2.08165e-12, 2.08165e-12, -100)
+
 [node name="Mesh" type="CollisionShape3D" parent="World/Player"]
 shape = SubResource("CapsuleShape3D_f1pdu")
 
@@ -62,6 +117,8 @@ material = SubResource("StandardMaterial3D_x484u")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="World"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33153, -3.76876)
+use_collision = true
+size = Vector3(2, 2, 2)
 material = SubResource("StandardMaterial3D_sk5u0")
 script = ExtResource("3_qnggx")
 speed = 10

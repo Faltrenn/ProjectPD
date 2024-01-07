@@ -16,6 +16,10 @@ var move_input: Vector2 = Vector2.ZERO
 
 var motion: Vector3 = Vector3.ZERO
 
+@onready var gun_anim := $Camera/Gun/AnimationPlayer as AnimationPlayer
+@onready var ray := $Camera/Ray as RayCast3D
+
+
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -24,13 +28,9 @@ func _unhandled_input(event: InputEvent):
 		var mouse_delta = event.relative / 3
 		rotate_y(MOUSE_SENSITIVITY * -mouse_delta.x)
 		camera.rotate_x(MOUSE_SENSITIVITY * -mouse_delta.y)
-	elif event is InputEventKey:
-		if event.pressed and event.keycode == KEY_Z:
-			match DisplayServer.window_get_vsync_mode():
-				DisplayServer.VSYNC_DISABLED:
-					DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
-				DisplayServer.VSYNC_ENABLED:
-					DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	elif event is InputEventMouseButton:
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			gun_anim.play("fire")
 
 func _physics_process(delta: float):
 	if not is_on_floor():
