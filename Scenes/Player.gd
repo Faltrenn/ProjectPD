@@ -16,7 +16,8 @@ var move_input: Vector2 = Vector2.ZERO
 
 var motion: Vector3 = Vector3.ZERO
 
-@onready var gun_anim := $Camera/weapon3/AnimationPlayer as AnimationPlayer
+@onready var weapon := $Camera/pistol as Weapon
+
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -28,7 +29,7 @@ func _unhandled_input(event: InputEvent):
 		camera.rotate_x(MOUSE_SENSITIVITY * -mouse_delta.y)
 	elif event is InputEventMouseButton:
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			gun_anim.play("fire")
+			weapon.fire()
 
 func _physics_process(delta: float):
 	if not is_on_floor():
