@@ -16,9 +16,7 @@ var move_input: Vector2 = Vector2.ZERO
 
 var motion: Vector3 = Vector3.ZERO
 
-@onready var gun_anim := $Camera/Gun/AnimationPlayer as AnimationPlayer
-@onready var ray := $Camera/Ray as RayCast3D
-
+@onready var gun_anim := $Camera/weapon3/AnimationPlayer as AnimationPlayer
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
